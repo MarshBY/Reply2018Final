@@ -7,18 +7,27 @@ namespace Reply2018Final
     {
         static void Main(string[] args)
         {
+            Program p = new Program();
+            p.Run();
+        }
+
+        public Provider[] prov;
+
+        void Run()
+        {
             Console.WriteLine("Starting...");
             StreamReader sr = new StreamReader("..\\..\\..\\input\\first_adventure.in");
 
             //Load first line.
-            int providers=0, products=0, countries=0, projects=0, count = 0;
+            int providers = 0, products = 0, countries = 0, projects = 0, count = 0;
             string line = sr.ReadLine();
             string temp = "";
-            for(int i = 0; i < line.Length; i++) {
+            for (int i = 0; i < line.Length; i++)
+            {
                 if (line[i] != ' ')
                 {
                     temp = temp + line[i];
-                    if(i != line.Length - 1)
+                    if (i != line.Length - 1)
                     {
                         continue;
                     }
@@ -95,12 +104,48 @@ namespace Reply2018Final
 
             Console.WriteLine("Country 4: " + countryNames[3]);
 
+            prov = new Provider[providers];
+            LoadRegions(sr, providers);
+
 
             //1st Open File
             //2nd Create Agent
             //3rd Load Agent
             //4th Take best agent and clone
             //5th repeat till we win.
+        }
+
+        public void LoadRegions(StreamReader sr, int providers)
+        {
+            for(int p = 0; p < providers; p++)
+            {
+                string line = sr.ReadLine();
+                string temp = "", name = "";
+                int regs = 0;
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[i] != ' ')
+                    {
+                        temp = temp + line[i];
+                        if (i != line.Length - 1)
+                        {
+                            continue;
+                        }
+                    }
+                    if(name == "")
+                    {
+                        name = temp;
+                        temp = "";
+                    }
+                    else
+                    {
+                        regs = Int32.Parse(temp);
+                    }
+                }
+                prov[p] = new Provider(name, regs);
+
+
+            }
         }
     }
 }

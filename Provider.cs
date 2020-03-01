@@ -6,9 +6,12 @@ namespace Reply2018Final
 {
     class Provider
     {
-        Provider(string name)
+        private int regions;
+        private string name;
+        Provider(string name, int regions)
         {
-
+            this.name = name;
+            this.regions = regions;
         }
     }
 
