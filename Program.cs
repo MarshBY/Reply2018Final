@@ -12,6 +12,7 @@ namespace Reply2018Final
         }
 
         public Provider[] prov;
+        public Project[] proj;
 
         void Run()
         {
@@ -80,6 +81,11 @@ namespace Reply2018Final
             temp = "";
             count = 0;
             string[] countryNames = new string[countries];
+            int[] countryIDs = new int[countries];
+            for(int i = 0; i < countries; i++)
+            {
+                countryIDs[i] = i;
+            }
             for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] != ' ')
@@ -105,7 +111,11 @@ namespace Reply2018Final
             Console.WriteLine("Country 4: " + countryNames[3]);
 
             prov = new Provider[providers];
+            proj = new Project[projects];
             LoadRegions(sr, providers, products, countries);
+            LoadProjects(sr, projects, products);
+
+            Console.ReadKey();
 
 
             //1st Open File
@@ -200,6 +210,51 @@ namespace Reply2018Final
                     }
                     prov[p].regions[x] = new Region(name, pNum, price, prods, latencies);
                 }
+            }
+        }
+
+        public void LoadProjects(StreamReader sr, int projects, int productNum)
+        {
+            string line = "";
+            string temp = "";
+            string country = "";
+            int penalty = -1, count = 0;
+            int[] products = new int[productNum];
+            for (int p = 0; p < projects; p++)
+            {
+                count = 0;
+                temp = "";
+                penalty = -1;
+                line = sr.ReadLine();
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[i] != ' ')
+                    {
+                        temp = temp + line[i];
+                        if (i != line.Length - 1)
+                        {
+                            continue;
+                        }
+                    }
+                    if (count == 0)
+                    {
+                        penalty = Int32.Parse(temp);
+                        temp = "";
+                    }
+                    else if (count == 1)
+                    {
+                        country = temp;
+                        temp = "";
+                    }
+                    else
+                    {
+                        products[count - 2] = Int32.Parse(temp);
+                        temp = "";
+                    }
+                    count++;
+                }
+                int countryID = 0;
+                proj[p] = new Project(penalty, countryID, products);
             }
         }
     }
