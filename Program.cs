@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Reply2018Final
@@ -21,6 +22,7 @@ namespace Reply2018Final
 
             //Load first line.
             int providers = 0, products = 0, countries = 0, projects = 0, count = 0;
+            Dictionary<string, int> country = new Dictionary<string, int>();
             string line = sr.ReadLine();
             string temp = "";
             for (int i = 0; i < line.Length; i++)
@@ -81,11 +83,6 @@ namespace Reply2018Final
             temp = "";
             count = 0;
             string[] countryNames = new string[countries];
-            int[] countryIDs = new int[countries];
-            for(int i = 0; i < countries; i++)
-            {
-                countryIDs[i] = i;
-            }
             for (int i = 0; i < line.Length; i++)
             {
                 if (line[i] != ' ')
@@ -97,6 +94,7 @@ namespace Reply2018Final
                     }
                 }
                 countryNames[count] = temp;
+                country.Add(temp, count);
                 temp = "";
                 count++;
             }
@@ -113,7 +111,7 @@ namespace Reply2018Final
             prov = new Provider[providers];
             proj = new Project[projects];
             LoadRegions(sr, providers, products, countries);
-            LoadProjects(sr, projects, products);
+            LoadProjects(sr, projects, products, country);
 
             Console.ReadKey();
 
@@ -213,8 +211,7 @@ namespace Reply2018Final
             }
         }
 
-        public void LoadProjects(StreamReader sr, int projects, int productNum)
-        {
+        public void LoadProjects(StreamReader sr, int projects, int productNum, Dictionary<string, int> c)        {
             string line = "";
             string temp = "";
             string country = "";
@@ -253,8 +250,7 @@ namespace Reply2018Final
                     }
                     count++;
                 }
-                int countryID = 0;
-                proj[p] = new Project(penalty, countryID, products);
+                proj[p] = new Project(penalty, c[country], products);
             }
         }
     }
