@@ -8,6 +8,7 @@ namespace Reply2018Final
     {
         private int regions;
         private string name;
+        private int a;
         public Provider(string name, int regions)
         {
             this.name = name;
