@@ -6,23 +6,31 @@ namespace Reply2018Final
 {
     class Provider
     {
-        private int regions;
-        private string name;
-        private int a;
-        public Provider(string name, int regions)
+        public int regionNum;
+        public string name;
+        public Region[] regions;
+        public Provider(string name, int regionNum)
         {
             this.name = name;
-            this.regions = regions;
+            this.regionNum = regionNum;
+            this.regions = new Region[regionNum];
         }
     }
 
     class Region
     {
-        private int packages;
+        private int packageNumber;
         private float price;
-        public Region()
+        private int[] products;
+        private int[] latencies;
+        public string name;
+        public Region(string name, int pNum, float price, int[] products, int[] latencies)
         {
-
+            this.name = name;
+            this.packageNumber = pNum;
+            this.price = price;
+            this.products = products;
+            this.latencies = latencies;
         }
     }
 }

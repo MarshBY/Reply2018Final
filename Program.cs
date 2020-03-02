@@ -105,7 +105,7 @@ namespace Reply2018Final
             Console.WriteLine("Country 4: " + countryNames[3]);
 
             prov = new Provider[providers];
-            LoadRegions(sr, providers);
+            LoadRegions(sr, providers, products, countries);
 
 
             //1st Open File
@@ -115,38 +115,14 @@ namespace Reply2018Final
             //5th repeat till we win.
         }
 
-        public void LoadRegions(StreamReader sr, int providers)
+        public void LoadRegions(StreamReader sr, int providers, int products, int countries)
         {
-            for(int p = 0; p < providers; p++)
+            for (int p = 0; p < providers; p++)
             {
                 string line = sr.ReadLine();
                 string temp = "", name = "";
                 int regs = 0;
                 //Read Name and # of regions
-                for (int i = 0; i < line.Length; i++)
-                {
-                    if (line[i] != ' ')
-                    {
-                        temp = temp + line[i];
-                        if (i != line.Length - 1)
-                        {
-                            continue;
-                        }
-                    }
-                    if(name == "")
-                    {
-                        name = temp;
-                        temp = "";
-                    }
-                    else
-                    {
-                        regs = Int32.Parse(temp);
-                    }
-                }
-                prov[p] = new Provider(name, regs);
-
-                //Read regions
-                line = sr.ReadLine();
                 for (int i = 0; i < line.Length; i++)
                 {
                     if (line[i] != ' ')
@@ -165,7 +141,64 @@ namespace Reply2018Final
                     else
                     {
                         regs = Int32.Parse(temp);
+                        temp = "";
                     }
+                }
+                prov[p] = new Provider(name, regs);
+
+                //Read regions
+                for (int x = 0; x < prov[p].regionNum; x++)
+                {
+                    name = sr.ReadLine();
+                    line = sr.ReadLine();
+                    int count = 0, pNum = 0;
+                    int[] prods = new int[products];
+                    int[] latencies = new int[countries];
+                    float price = 0.0f;
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        if (line[i] != ' ')
+                        {
+                            temp = temp + line[i];
+                            if (i != line.Length - 1)
+                            {
+                                continue;
+                            }
+                        }
+                        if (count == 0)
+                        {
+                            pNum = Int32.Parse(temp);
+                            temp = "";
+                        }
+                        else if (count == 1)
+                        {
+                            price = float.Parse(temp);
+                            temp = "";
+                        }
+                        else
+                        {
+                            prods[count - 2] = Int32.Parse(temp);
+                            temp = "";
+                        }
+                        count++;
+                    }
+                    count = 0;
+                    line = sr.ReadLine();
+                    for (int i = 0; i < line.Length; i++)
+                    {
+                        if (line[i] != ' ')
+                        {
+                            temp = temp + line[i];
+                            if (i != line.Length - 1)
+                            {
+                                continue;
+                            }
+                        }
+                        latencies[count] = Int32.Parse(temp);
+                        temp = "";
+                        count++;
+                    }
+                    prov[p].regions[x] = new Region(name, pNum, price, prods, latencies);
                 }
             }
         }
