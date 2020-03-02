@@ -17,6 +17,8 @@ namespace Reply2018Final
 
     class Region
     {
+        private int packages;
+        private float price;
         public Region()
         {
 
