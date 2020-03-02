@@ -122,6 +122,7 @@ namespace Reply2018Final
                 string line = sr.ReadLine();
                 string temp = "", name = "";
                 int regs = 0;
+                //Read Name and # of regions
                 for (int i = 0; i < line.Length; i++)
                 {
                     if (line[i] != ' ')
@@ -144,7 +145,28 @@ namespace Reply2018Final
                 }
                 prov[p] = new Provider(name, regs);
 
-
+                //Read regions
+                line = sr.ReadLine();
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[i] != ' ')
+                    {
+                        temp = temp + line[i];
+                        if (i != line.Length - 1)
+                        {
+                            continue;
+                        }
+                    }
+                    if (name == "")
+                    {
+                        name = temp;
+                        temp = "";
+                    }
+                    else
+                    {
+                        regs = Int32.Parse(temp);
+                    }
+                }
             }
         }
     }

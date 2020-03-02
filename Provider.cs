@@ -8,7 +8,7 @@ namespace Reply2018Final
     {
         private int regions;
         private string name;
-        Provider(string name, int regions)
+        public Provider(string name, int regions)
         {
             this.name = name;
             this.regions = regions;
@@ -17,7 +17,7 @@ namespace Reply2018Final
 
     class Region
     {
-        Region()
+        public Region()
         {
 
         }
